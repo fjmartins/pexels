@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fjmartins.pexels.model.Photo
 import com.fjmartins.pexels.repository.PexelRepository
 import kotlinx.coroutines.launch
 
@@ -12,14 +13,15 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(private val repository: PexelRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    private val _photos = MutableLiveData<List<Photo>>().apply {
+        value = ArrayList()
     }
-    val text: LiveData<String> = _text
+    val photos: LiveData<List<Photo>> = _photos
 
-    fun getImages() {
+    fun getImages(query: String) {
         viewModelScope.launch {
-            val response = repository.getImages("Flowers")
+            val response = repository.getImages(query)
+            _photos.postValue(response?.photos.orEmpty())
             Log.d("response ", response.toString())
         }
     }

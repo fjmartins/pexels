@@ -10,5 +10,5 @@ interface PexelApi {
     }
 
     @GET("search")
-    suspend fun getImages(@Query("query") query: String, @Query("page") page: Int, @Query("per_page") perPage: Int = 15): PexelResponse
+    suspend fun getImages(@Query("query") query: String, @Query("page") page: Int, @Query("per_page") perPage: Int = 20): PexelResponse
 }
