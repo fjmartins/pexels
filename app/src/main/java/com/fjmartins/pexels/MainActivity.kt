@@ -13,8 +13,16 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.fjmartins.pexels.di.Injectable
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Injectable, HasAndroidInjector {
+
+    @Inject
+    lateinit var androidInjector : DispatchingAndroidInjector<Any>
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -45,4 +53,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
+    
 }
