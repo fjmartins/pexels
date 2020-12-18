@@ -13,15 +13,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fjmartins.pexels.R
+import com.fjmartins.pexels.databinding.FragmentHomeBinding
 import com.fjmartins.pexels.di.Injectable
 import com.fjmartins.pexels.model.Photo
 import javax.inject.Inject
-
 
 class HomeFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(
@@ -33,25 +34,27 @@ class HomeFragment : Fragment(), Injectable {
             homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
         }
 
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding.viewModel = homeViewModel
+
         setHasOptionsMenu(true)
 
         homeViewModel.photos.observe(viewLifecycleOwner, Observer { photos ->
             val mLayoutManager: RecyclerView.LayoutManager = GridLayoutManager(context, 2)
-            root.findViewById<RecyclerView>(R.id.homeRecyclerView).apply {
+            binding.homeRecyclerView.apply {
                 layoutManager = mLayoutManager
                 adapter = PexelAdapter(object : PhotoOnClickListener {
                     override fun onClick(index: Int, photo: Photo) {
                         val intent = Intent()
                         intent.action = Intent.ACTION_VIEW
-                        intent.setDataAndType(Uri.parse(photo.src.original), "image/*")
+                        intent.setDataAndType(Uri.parse(photo.src.large2x), "image/*")
                         startActivity(intent)
                     }
                 }, photos)
             }
         })
 
-        return root
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

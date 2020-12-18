@@ -3,7 +3,6 @@ package com.fjmartins.pexels.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 
 @Entity(tableName = "photos")
 data class Photo(
@@ -23,10 +22,11 @@ data class Photo(
     @ColumnInfo(name = "photographer_url")
     val photographer_url: String,
     @ColumnInfo(name = "src")
-    @TypeConverters(SrcConverter::class)
     val src: Src,
     @ColumnInfo(name = "url")
     val url: String,
     @ColumnInfo(name = "width")
-    val width: Int
+    val width: Int,
+    @ColumnInfo(name = "keyword")
+    var keyword: String
 )

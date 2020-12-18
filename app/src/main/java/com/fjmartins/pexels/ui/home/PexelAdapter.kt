@@ -7,10 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.fjmartins.pexels.R
 import com.fjmartins.pexels.model.Photo
 
-class PexelAdapter(private val listener: PhotoOnClickListener, private val dataSet: List<Photo>) :
+class PexelAdapter(private val listener: PhotoOnClickListener, private val photos: List<Photo>) :
     RecyclerView.Adapter<PexelAdapter.ViewHolder>() {
 
     /**
@@ -36,9 +37,13 @@ class PexelAdapter(private val listener: PhotoOnClickListener, private val dataS
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        val photo = dataSet[position]
+        val photo = photos[position]
 
-        Glide.with(viewHolder.itemView.context).load(photo.src.portrait).into(viewHolder.photo)
+        Glide.with(viewHolder.itemView.context)
+            .load(photo.src.portrait)
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .into(viewHolder.photo)
+
         viewHolder.photographer.text = photo.photographer
 
         viewHolder.itemView.setOnClickListener {
@@ -47,8 +52,7 @@ class PexelAdapter(private val listener: PhotoOnClickListener, private val dataS
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = dataSet.size
-
+    override fun getItemCount() = photos.size
 }
 
 interface PhotoOnClickListener {

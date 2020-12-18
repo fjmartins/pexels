@@ -1,6 +1,6 @@
 package com.fjmartins.pexels.ui.home
 
-import android.util.Log
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,13 +16,21 @@ class HomeViewModel @Inject constructor(private val repository: PexelRepository)
     private val _photos = MutableLiveData<List<Photo>>().apply {
         value = ArrayList()
     }
+
     val photos: LiveData<List<Photo>> = _photos
+    val loading = ObservableBoolean(false)
+    val empty = ObservableBoolean(false)
 
     fun getImages(query: String) {
+        loading.set(true)
+
         viewModelScope.launch {
             val response = repository.getImages(query)
-            _photos.postValue(response?.photos.orEmpty())
-            Log.d("response ", response.toString())
+            val photos = response?.photos.orEmpty()
+            _photos.postValue(photos)
+            empty.set(photos.isEmpty())
+
+            loading.set(false)
         }
     }
 }

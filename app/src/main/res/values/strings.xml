@@ -10,4 +10,6 @@
     <string name="menu_home">Home</string>
     <string name="menu_favorites">Favorites</string>
     <string name="search">Search</string>
+
+    <string name="no_results_found">No results found.</string>
 </resources>
