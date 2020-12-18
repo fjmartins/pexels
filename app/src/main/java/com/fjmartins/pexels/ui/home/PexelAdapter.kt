@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.fjmartins.pexels.R
 import com.fjmartins.pexels.model.Photo
 
-class PexelAdapter(private val dataSet: List<Photo>) :
+class PexelAdapter(private val listener: PhotoOnClickListener, private val dataSet: List<Photo>) :
     RecyclerView.Adapter<PexelAdapter.ViewHolder>() {
 
     /**
@@ -18,14 +18,8 @@ class PexelAdapter(private val dataSet: List<Photo>) :
      * (custom ViewHolder).
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val photo: ImageView
-        val photographer: TextView
-
-        init {
-            // Define click listener for the ViewHolder's View.
-            photographer = view.findViewById(R.id.photographer)
-            photo = view.findViewById(R.id.photo)
-        }
+        val photo: ImageView = view.findViewById(R.id.photo)
+        val photographer: TextView = view.findViewById(R.id.photographer)
     }
 
     // Create new views (invoked by the layout manager)
@@ -46,9 +40,17 @@ class PexelAdapter(private val dataSet: List<Photo>) :
 
         Glide.with(viewHolder.itemView.context).load(photo.src.portrait).into(viewHolder.photo)
         viewHolder.photographer.text = photo.photographer
+
+        viewHolder.itemView.setOnClickListener {
+            listener.onClick(position, photo)
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
 
+}
+
+interface PhotoOnClickListener {
+    fun onClick(index: Int, photo: Photo)
 }
