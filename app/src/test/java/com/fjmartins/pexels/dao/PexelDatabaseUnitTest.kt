@@ -19,7 +19,7 @@ class PexelDatabaseUnitTest : BaseUnitTest() {
     fun initializeDb() {
         database = Room.databaseBuilder(
             context,
-            PexelDatabase::class.java, "forex-database"
+            PexelDatabase::class.java, "test-database"
         ).build()
 
         photosDao = database.photosDao()

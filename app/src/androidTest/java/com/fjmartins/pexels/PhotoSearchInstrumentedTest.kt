@@ -20,7 +20,7 @@ class PhotoSearchInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.fjmartins.forexrates", appContext.packageName)
+        assertEquals("com.fjmartins.pexels", appContext.packageName)
     }
 
     @Test
