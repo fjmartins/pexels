@@ -15,7 +15,7 @@ interface PhotosDao {
     suspend fun insertPhotos(photos: List<Photo>): List<Long>
 
     @Query("SELECT * FROM photos WHERE keyword=:keyword")
-    suspend fun getPhoto(keyword: String): Photo
+    suspend fun getPhotos(keyword: String): List<Photo>
 
     @Update
     suspend fun updatePhoto(photo: Photo): Int

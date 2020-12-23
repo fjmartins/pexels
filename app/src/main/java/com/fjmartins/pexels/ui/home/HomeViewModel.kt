@@ -25,8 +25,8 @@ class HomeViewModel @Inject constructor(private val repository: PexelRepository)
         loading.set(true)
 
         viewModelScope.launch {
-            val response = repository.getImages(query)
-            val photos = response?.photos.orEmpty()
+            val photos  = repository.getImages(query).orEmpty()
+
             _photos.postValue(photos)
             empty.set(photos.isEmpty())
 
